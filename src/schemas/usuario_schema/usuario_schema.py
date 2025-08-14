@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 class UsuarioSchema(BaseModel):
@@ -7,6 +7,4 @@ class UsuarioSchema(BaseModel):
     senha: str
     ativo: Optional[bool]
     admin: Optional[bool]
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

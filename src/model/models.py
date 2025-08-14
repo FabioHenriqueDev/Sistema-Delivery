@@ -1,15 +1,9 @@
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, Float, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
-import os
-# from sqlalchemy_utils.types import ChoiceType
+from src.dependencies.database import get_engine
 
-# Caminho absoluto do banco
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(BASE_DIR, '..', '..', 'database', 'banco.db')
-db_url = f"sqlite:///{db_path}"
 
-# Cria engine
-db = create_engine(db_url, echo=False)
+get_engine()
 Base = declarative_base()
 
 

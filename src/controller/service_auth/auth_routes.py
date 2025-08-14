@@ -1,14 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException
 from src.model.models import Usuario
 from sqlalchemy.orm import Session
-from src.dependencies.dependence import pegar_sessao, verificar_token
+from src.dependencies.dependence import pegar_sessao
 from main import bcrypt_context
 from src.schemas.usuario_schema.usuario_schema import UsuarioSchema
 from src.schemas.login_schema.login_schema import LoginSchema
-from src.security.jwt_handler import criar_token
+from src.security.jwt_handler import criar_token, verificar_token
 from src.service.auth_service import autenticar_usuario
 from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
+from src.utils.validate_email import validacao_email
 
 
 auth_router = APIRouter(prefix='/auth', tags=['auth'])
@@ -23,18 +24,20 @@ async def home():
 
 
 @auth_router.post('/create_account')
-async def criar_conta(usuario_shcema: UsuarioSchema, session: Session = Depends(pegar_sessao)):
-    usuario = session.query(Usuario).filter_by(email=usuario_shcema.email).first()
+async def criar_conta(usuario_schema: UsuarioSchema, session: Session = Depends(pegar_sessao)):
+    usuario = session.query(Usuario).filter_by(email=usuario_schema.email).first()
+    if not validacao_email(usuario_schema.email):
+        raise HTTPException(status_code=422, detail=f'Email Inválido: {usuario_schema.email}')
     if usuario:
         raise HTTPException(status_code=409, detail="Usuário ja existe")
     else:
-        senha_criptografada = bcrypt_context.hash(usuario_shcema.senha)
+        senha_criptografada = bcrypt_context.hash(usuario_schema.senha)
         novo_usuario = Usuario(
-                nome=usuario_shcema.nome, 
-                email=usuario_shcema.email, 
+                nome=usuario_schema.nome, 
+                email=usuario_schema.email, 
                 senha=senha_criptografada, 
-                ativo=usuario_shcema.ativo,
-                admin=usuario_shcema.admin
+                ativo=usuario_schema.ativo,
+                admin=usuario_schema.admin
             )
         session.add(novo_usuario)
         session.commit()
