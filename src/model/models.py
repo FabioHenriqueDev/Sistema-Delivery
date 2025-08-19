@@ -11,11 +11,11 @@ class Usuario(Base):
     __tablename__ = 'usuarios'
 
     id = Column('id', Integer, primary_key=True, autoincrement=True)
-    nome = Column('nome', String)
+    nome = Column('nome', String, nullable=False)
     email = Column('email', String, nullable=False, unique=True)
-    senha = Column('senha', String)
-    ativo = Column('ativo', Boolean)
-    admin = Column('admin', Boolean)
+    senha = Column('senha', String, nullable=False)
+    ativo = Column('ativo', Boolean, nullable=False)
+    admin = Column('admin', Boolean, nullable=False)
 
     def __init__(self, nome, email, senha, ativo=True, admin=False):
         self.nome = nome
@@ -27,12 +27,6 @@ class Usuario(Base):
 
 class Pedidos(Base):
     __tablename__ = 'pedidos'
-
-    # STATUS_PEDIDOS = [
-    #     ('PENDENTE', 'PENDENTE'),
-    #     ('CANCELADO', 'CANCELADO'),
-    #     ('FINALIZADO', 'FINALIZADO')
-    # ]
 
     id = Column('id', Integer, primary_key=True, autoincrement=True)
     status = Column('status', String) # pendente, cancelado, finalizado

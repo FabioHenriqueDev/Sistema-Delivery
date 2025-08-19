@@ -4,6 +4,7 @@ from passlib.context import CryptContext
 from dotenv import load_dotenv
 import os
 from faker import Faker
+from fastapi.testclient import TestClient
 
 load_dotenv()
 
@@ -15,6 +16,7 @@ app = FastAPI()
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 oauth2_schema = OAuth2PasswordBearer(tokenUrl='auth/login-form') #Quando alguém acessar essa rota, use oauth2_schema pra extrair o token JWT do header Authorization, e me entregue esse token como string na variável token.
 fake = Faker()
+client = TestClient(app)
 
 from src.controller.service_auth.auth_routes import auth_router # noqa: E402
 from src.controller.service_order.order_routes import order_router # noqa: E402

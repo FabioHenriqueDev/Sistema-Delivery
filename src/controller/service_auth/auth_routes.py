@@ -10,6 +10,8 @@ from src.service.auth_service import autenticar_usuario
 from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
 from src.utils.validate_email import validacao_email
+from src.utils.validate_password import validate_senha
+from src.utils.validate_name import validate_nome
 
 
 auth_router = APIRouter(prefix='/auth', tags=['auth'])
@@ -26,8 +28,12 @@ async def home():
 @auth_router.post('/create_account')
 async def criar_conta(usuario_schema: UsuarioSchema, session: Session = Depends(pegar_sessao)):
     usuario = session.query(Usuario).filter_by(email=usuario_schema.email).first()
+    if not validate_nome(usuario_schema.nome):
+        raise HTTPException(status_code=422, detail='Nome inválida: o campo deve ter pelo menos 2 caracteres.')
     if not validacao_email(usuario_schema.email):
         raise HTTPException(status_code=422, detail=f'Email Inválido: {usuario_schema.email}')
+    if not validate_senha(usuario_schema.senha):
+        raise HTTPException(status_code=422, detail='Senha inválida: o campo deve ter pelo menos 6 caracteres.')
     if usuario:
         raise HTTPException(status_code=409, detail="Usuário ja existe")
     else:

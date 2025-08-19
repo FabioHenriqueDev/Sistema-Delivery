@@ -5,6 +5,6 @@ class UsuarioSchema(BaseModel):
     nome: str
     email: str
     senha: str
-    ativo: Optional[bool]
-    admin: Optional[bool]
+    ativo: bool
+    admin: bool
     model_config = ConfigDict(from_attributes=True)

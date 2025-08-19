@@ -53,4 +53,5 @@ bandit-html:
 
 # Comandos para testes
 test:
-	python -m pytest
+	pytest -s -v
+
