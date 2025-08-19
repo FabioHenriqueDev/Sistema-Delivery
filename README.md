@@ -1,54 +1,102 @@
-# 🍔 Sistema de Delivery - API
+# Sistema-Delivery 🚚
 
-Este projeto é uma **API para gerenciamento de pedidos em um sistema de delivery**, desenvolvida com **FastAPI** e **SQLAlchemy**.  
-O objetivo é permitir que usuários autenticados realizem pedidos, visualizem e gerenciem seus itens, além de manter um fluxo seguro de autenticação e autorização.
-
----
-
-## 🚀 Funcionalidades
-
-- 🔑 **Autenticação JWT**  
-  Apenas usuários autenticados podem criar pedidos, garantindo a segurança dos dados.
-
-- 📦 **Gerenciamento de Pedidos**  
-  - Criar pedidos  
-  - Adicionar e remover itens  
-  - Recalcular automaticamente o valor total do pedido  
-
-- ⚙ **Automação com Makefile**  
-  Utilização de comandos no `Makefile` para agilizar tarefas, como:  
-  - Criar ou resetar o banco de dados  
-  - Executar migrations  
-  - Subir o servidor  
-  - Limpar arquivos temporários  
-
-- 🗄 **Migrations com Alembic**  
-  Controle de versão do banco de dados, permitindo evolução estruturada das tabelas.
+Sistema de delivery inclusivo desenvolvido com **FastAPI**, focado em autenticação de usuários, gerenciamento de pedidos e segurança. Este projeto inclui testes automatizados, validação de dados e boas práticas de desenvolvimento.
 
 ---
 
-## 📋 Pré-requisitos
+## Tecnologias Utilizadas ⚙️
 
-- Python 3.10+  
-- Pip  
-- Virtualenv (opcional, mas recomendado)  
-- SQLite ou outro banco configurado no `SQLAlchemy`  
+* **Backend**: FastAPI, SQLAlchemy, Alembic
+
+* **Banco de Dados**: SQLite (desenvolvimento) / Planejado PostgreSQL (produção)
+
+* **Autenticação**: JWT
+
+* **Testes**: pytest, pytest-bdd
+
+* **Segurança**: BanditScan, PipAudit, RefCheck
+
+* **Migrations**: Alembic para versionamento do banco de dados
+
+* **Planejamento Futuro**: CI/CD, deploy em AWS EC2
 
 ---
 
-## ⚙️ Instalação
+## Funcionalidades ⭐
 
-Clone este repositório:
+* ✔️ Cadastro e autenticação de usuários
 
-```bash
-git clone https://github.com/seu-usuario/sistema-delivery.git
-cd sistema-delivery
+* 📦 Criação, listagem e gerenciamento de pedidos
 
-## Crie e ative o ambiente virtual
+* 🔒 Validação de e-mail e senha (mínimo de 6 caracteres)
 
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate     # Windows
+* 🔬 Testes automatizados cobrindo os cenários principais do sistema
+
+* 🛡️ Relatórios de segurança com Bandit em formato HTML
+
+* 🔗 Integração com banco de dados local para testes e desenvolvimento
+
+---
+
+## Instalação 💻
+
+1. Clone o repositório:
+
+git clone https://github.com/FabioHenriqueDev/Sistema-Delivery.git
+cd Sistema-Delivery
+
+
+2. Crie e ative um ambiente virtual:
+
+python -m venv .venv
+
+
+* No Linux/macOS:
+
+  ```
+  source .venv/bin/activate
+  ```
+
+* No Windows:
+
+  ```
+  .venv\Scripts\activate
+  ```
+
+3. Instale as dependências:
 
 pip install -r requirements.txt
+
+
+4. Configure o banco de dados e aplique as migrations:
+
+alembic upgrade head
+
+
+---
+
+## Testes 🧪
+
+O projeto utiliza **pytest** e **pytest-bdd** para testes unitários e BDD.
+
+* Para rodar os testes:
+
+pytest
+
+
+* Relatórios de segurança podem ser gerados com **Bandit**:
+
+bandit -r . -f html -o report.html
+
+
+---
+
+## Planejamento Futuro ✨
+
+* Implementar CI/CD para integração e deploy contínuo
+
+* Deploy do sistema em **AWS EC2**
+
+* Cobertura completa de testes para todas as funcionalidades
+
+* Melhorias na interface de usuário (frontend)
